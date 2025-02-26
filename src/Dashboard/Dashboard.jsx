@@ -212,7 +212,7 @@ const Dashboard = () => {
           {viewAllBoards && !selectedBoard && !showCreateForm && (
             <>
               <h2 className="text-2xl font-semibold mb-4">All Boards</h2>
-              <div className="flex justify-end mb-4">
+              <div className="flex justify-end mb-2">
                 {userRole === "admin" && boards.length < 9 && (
                   <button
                     onClick={() => {
