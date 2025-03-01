@@ -207,12 +207,16 @@ const Dashboard = () => {
         </div>
 
         {/* Content Area (Without Scroll) */}
-        <div className="p-6 flex-1 justify-center items-center overflow-auto">
+        <div className=" flex-1 justify-center  items-center overflow-x-auto">
           {/* Show All Boards */}
           {viewAllBoards && !selectedBoard && !showCreateForm && (
             <>
-              <h2 className="text-2xl font-semibold mb-4">All Boards</h2>
-              <div className="flex justify-end mb-2">
+              <h2 className="text-2xl font-semibold mb-4 p-4 text-left ">
+                All Boards
+              </h2>
+
+              {/* Create Board Button Section */}
+              <div className="flex justify-center sm:justify-end mb-4">
                 {userRole === "admin" && boards.length < 9 && (
                   <button
                     onClick={() => {
@@ -220,7 +224,7 @@ const Dashboard = () => {
                       setViewAllBoards(false);
                       setSelectedBoard(null);
                     }}
-                    className="p-3 border rounded bg-blue-500 text-white text-center hover:bg-blue-400 mt-[-44px]"
+                    className="p-3 mr-10 border rounded bg-blue-500 text-white hover:bg-blue-400 transition duration-300"
                   >
                     + Create Board
                   </button>
@@ -232,30 +236,35 @@ const Dashboard = () => {
                 )}
               </div>
 
+              {/* Boards Grid Section */}
               <div className="flex flex-wrap gap-4 justify-center items-center overflow-auto max-h-[80vh]">
                 {boards.map((board) => (
                   <div
                     key={board._id}
-                    className="cursor-pointer relative p-4 bg-white shadow-md rounded hover:bg-gray-200 max-h-25 w-72"
+                    className="cursor-pointer relative p-4 bg-white shadow-md rounded-lg hover:bg-gray-200 w-full sm:w-[300px] transition duration-300"
                   >
                     <div onClick={() => setSelectedBoard(board)}>
-                      <h3 className="font-semibold">{board.title}</h3>
-                      <p className="text-sm text-gray-600 overflow-hidden transition-all duration-300 max-h-12 hover:max-h-40">
+                      <h3 className="font-semibold text-center sm:text-left">
+                        {board.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 text-center sm:text-left overflow-hidden transition-all duration-300 max-h-12 hover:max-h-40">
                         {board.description}
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 text-center sm:text-left">
                         Created At: {new Date(board.createdAt).toLocaleString()}
                       </p>
                     </div>
 
                     {/* Delete Button (Only for Admins) */}
-                    <div className="absolute top-3 right-4">
-                      <DeleteBoard
-                        board={board}
-                        fetchBoards={fetchBoards}
-                        userRole={userRole}
-                      />
-                    </div>
+                    {userRole === "admin" && (
+                      <div className="absolute top-3 right-3">
+                        <DeleteBoard
+                          board={board}
+                          fetchBoards={fetchBoards}
+                          userRole={userRole}
+                        />
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -338,7 +347,7 @@ const Dashboard = () => {
             !selectedBoard &&
             !showCreateForm &&
             !viewAllMembers && (
-              <div className="flex w-full min-w-full items-center justify-center h-full text-center">
+              <div className="flex w-full p-20 min-w-full items-center justify-center h-full text-center">
                 {userRole === "admin" ? (
                   <h2 className="text-xl text-gray-600">
                     Welcome, Admin! You have full access to manage boards.
@@ -350,10 +359,9 @@ const Dashboard = () => {
                 )}
               </div>
             )}
-
           {/* Board Details */}
           {selectedBoard && (
-            <div className="flex items-center justify-center flex-wrap">
+            <div className="flex  flex-wrap w-full">
               <ListComponent boardId={selectedBoard._id} />
             </div>
           )}
